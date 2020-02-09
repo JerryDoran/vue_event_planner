@@ -6,6 +6,7 @@ import CreateEvent from '@/components/events/CreateEvent.vue';
 import Profile from '@/components/user/Profile.vue';
 import Signup from '@/components/user/Signup.vue';
 import Signin from '@/components/user/Signin.vue';
+import Event from '@/components/events/Event.vue';
 
 Vue.use(VueRouter);
 
@@ -20,10 +21,17 @@ const routes = [
     name: 'Events',
     component: Events
   },
+
   {
     path: '/event/new',
     name: 'CreateEvent',
     component: CreateEvent
+  },
+  {
+    path: '/events/:id',
+    name: 'Event',
+    props: true,
+    component: Event
   },
   {
     path: '/profile',

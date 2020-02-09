@@ -13,7 +13,6 @@
           <v-btn
             v-for="item in menuItems"
             :key="item.title"
-            router
             :to="item.link"
             text
             class="btn-nav grey--text"
