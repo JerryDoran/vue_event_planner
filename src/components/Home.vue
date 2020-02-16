@@ -50,7 +50,7 @@ export default {
   },
   computed:{
     events(){
-      return this.$store.getters.featuredEvents
+      return this.$store.getters.featuredEvents;
     }
   },
   components: {}

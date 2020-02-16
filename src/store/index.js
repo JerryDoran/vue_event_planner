@@ -10,14 +10,18 @@ export default new Vuex.Store({
         imageUrl: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg',
         id: '1',
         title: 'Vue.js Conference in San Diego',
-        date: '2020-02-25'
+        date: '2020-02-25',
+        location: 'San Diego',
+        description: 'Awesome Vue.js talks!'
       },
       {
         imageUrl:
           'https://www.fodors.com/wp-content/uploads/2018/10/HERO_UltimateParis_Heroshutterstock_112137761.jpg',
         id: '2',
         title: 'Javascript Expo in Paris',
-        date: '2020-02-10'
+        date: '2020-02-10',
+        location: 'Paris',
+        description: 'Best Javascript conference ever!'
       }
     ]
   },
@@ -25,11 +29,29 @@ export default new Vuex.Store({
     id: `123`,
     registeredEvents: ['1']
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    createEvent(state, payload) {
+      state.loadedEvents.push(payload);
+    }
+  },
+  actions: {
+    createEvent({ commit }, payload) {
+      const event = {
+        title: payload.title,
+        location: payload.location,
+        imageUrl: payload.imageUrl,
+        description: payload.description,
+        date: payload.date,
+        id: 'dkjfkdjk'
+      };
+      // Reach out to Firebase and store event
+      commit('createEvent', event);
+    }
+  },
   getters: {
     loadedEvents(state) {
       return state.loadedEvents.sort((eventA, eventB) => {
+        // This will return a true or false value
         return eventA.date > eventB.date;
       });
     },
@@ -39,6 +61,7 @@ export default new Vuex.Store({
     loadedEvent(state) {
       return eventId => {
         return state.loadedEvents.find(event => {
+          // This will return a true or false value
           return event.id === eventId;
         });
       };
