@@ -10,7 +10,7 @@ export default new Vuex.Store({
         imageUrl: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg',
         id: '1',
         title: 'Vue.js Conference in San Diego',
-        date: '2020-02-25',
+        date: new Date(),
         location: 'San Diego',
         description: 'Awesome Vue.js talks!'
       },
@@ -19,7 +19,7 @@ export default new Vuex.Store({
           'https://www.fodors.com/wp-content/uploads/2018/10/HERO_UltimateParis_Heroshutterstock_112137761.jpg',
         id: '2',
         title: 'Javascript Expo in Paris',
-        date: '2020-02-10',
+        date: new Date(),
         location: 'Paris',
         description: 'Best Javascript conference ever!'
       }

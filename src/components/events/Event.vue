@@ -5,7 +5,7 @@
         <v-card dark>
           <v-card-title class="headline">{{ event.title }}</v-card-title>
           <v-img :src="event.imageUrl"></v-img>
-          <v-card-subtitle class="subheadline">{{ event.date }} - {{ event.location }}</v-card-subtitle>
+          <v-card-subtitle class="subheadline">{{ event.date | date}} - {{ event.location }}</v-card-subtitle>
           <v-card-text>{{ event.description }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>

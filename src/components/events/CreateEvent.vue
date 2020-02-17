@@ -79,6 +79,31 @@
               </v-menu>
             </v-col>
             <v-col cols="12" sm="6" offset-sm="2">
+              <v-dialog
+                ref="dialog"
+                v-model="modal2"
+                :return-value.sync="time"
+                persistent
+                width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    v-model="time"
+                    label="Time"
+                    prepend-icon="mdi-clock"
+                    readonly
+                    v-on="on"
+                    :rules="[rules.required]"
+                  ></v-text-field>
+                </template>
+                <v-time-picker v-if="modal2" v-model="time" full-width>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" @click="modal2 = false">Cancel</v-btn>
+                  <v-btn text color="primary" @click="$refs.dialog.save(time)">OK</v-btn>
+                </v-time-picker>
+              </v-dialog>
+            </v-col>
+            <!-- <v-col cols="12" sm="6" offset-sm="2">
               <v-text-field
                 name="time"
                 label="Time"
@@ -87,7 +112,7 @@
                 prepend-icon="mdi-clock"
                 :rules="[rules.required]"
               ></v-text-field>
-            </v-col>
+            </v-col>-->
           </v-row>
 
           <v-col cols="12" sm="6" offset-sm="2">
@@ -109,8 +134,10 @@ export default {
     location: '',
     imageUrl: '',
     description: '',
-    date: '',
-    time: ''
+    date: null,
+    time: null,
+    menu2: false,
+    modal2: false
   }),
   computed: {
     formIsValid() {
