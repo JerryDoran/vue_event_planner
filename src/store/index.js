@@ -11,6 +11,7 @@ export default new Vuex.Store({
         id: '1',
         title: 'Vue.js Conference in San Diego',
         date: new Date(),
+        time: null,
         location: 'San Diego',
         description: 'Awesome Vue.js talks!'
       },
@@ -20,6 +21,7 @@ export default new Vuex.Store({
         id: '2',
         title: 'Javascript Expo in Paris',
         date: new Date(),
+        time: null,
         location: 'Paris',
         description: 'Best Javascript conference ever!'
       }
@@ -42,6 +44,7 @@ export default new Vuex.Store({
         imageUrl: payload.imageUrl,
         description: payload.description,
         date: payload.date,
+        time: payload.time,
         id: 'dkjfkdjk'
       };
       // Reach out to Firebase and store event

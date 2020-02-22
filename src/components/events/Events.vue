@@ -11,7 +11,7 @@
                 </v-col>
                 <v-col cols="7" sm="6">
                   <v-card-title class="subheadline">{{ event.title }}</v-card-title>
-                  <v-card-subtitle>{{ event.date | date }}</v-card-subtitle>
+                  <v-card-subtitle>{{ event.date | date }} - {{ event.time }}</v-card-subtitle>
                   <v-card-actions>
                     <v-btn text :to="'/events/' + event.id">
                       <v-icon left>mdi-arrow-right</v-icon>View Information

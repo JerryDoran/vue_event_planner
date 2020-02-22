@@ -24,7 +24,7 @@
       </v-app-bar>
 
       <!-- Navigation Drawer -->
-      <v-navigation-drawer v-model="sideNav" app class="drawer-color">
+      <v-navigation-drawer v-model="sideNav" app class="drawer-color" disable-resize-watcher>
         <v-list>
           <v-list-item v-for="item in menuItems" :key="item.title" router :to="item.link">
             <v-list-item-icon>

@@ -78,7 +78,7 @@
                 <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
               </v-menu>
             </v-col>
-            <v-col cols="12" sm="6" offset-sm="2">
+            <!-- <v-col cols="12" sm="6" offset-sm="2">
               <v-dialog
                 ref="dialog"
                 v-model="modal2"
@@ -102,8 +102,8 @@
                   <v-btn text color="primary" @click="$refs.dialog.save(time)">OK</v-btn>
                 </v-time-picker>
               </v-dialog>
-            </v-col>
-            <!-- <v-col cols="12" sm="6" offset-sm="2">
+            </v-col>-->
+            <v-col cols="12" sm="6" offset-sm="2">
               <v-text-field
                 name="time"
                 label="Time"
@@ -112,7 +112,7 @@
                 prepend-icon="mdi-clock"
                 :rules="[rules.required]"
               ></v-text-field>
-            </v-col>-->
+            </v-col>
           </v-row>
 
           <v-col cols="12" sm="6" offset-sm="2">
@@ -161,7 +161,8 @@ export default {
         location: this.location,
         imageUrl: this.imageUrl,
         description: this.description,
-        date: new Date()
+        date: new Date(),
+        time: this.time
       };
       this.$store.dispatch('createEvent', eventData);
       this.$router.push('/events');
