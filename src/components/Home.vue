@@ -9,7 +9,12 @@
           <v-btn large router to="/event/new" color="primary">Organize Event</v-btn>
         </v-col>
       </v-row>
-      <v-row class="mt-2">
+      <v-row>
+        <v-col cols="12" class="text-sm-center">
+          <v-progress-circular indeterminate color="primary" :width="5" :size="50" v-if="loading"></v-progress-circular>
+        </v-col>
+      </v-row>
+      <v-row class="mt-2" v-if="!loading">
         <v-col cols="12">
           <v-carousel class="carousel">
             <v-carousel-item
@@ -39,18 +44,19 @@
 
 export default {
   name: 'Home',
-  data: () => ({
-    
-  }),
+  data: () => ({}),
   methods: {
     loadEvent(id) {
       console.log(id);
       this.$router.push('/events/' + id);
     }
   },
-  computed:{
-    events(){
+  computed: {
+    events() {
       return this.$store.getters.featuredEvents;
+    },
+    loading(){
+      return this.$store.getters.loading
     }
   },
   components: {}

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import * as firebase from 'firebase';
 
 Vue.use(Vuex);
 
@@ -25,30 +26,129 @@ export default new Vuex.Store({
         location: 'Paris',
         description: 'Best Javascript conference ever!'
       }
-    ]
+    ],
+    user: null,
+    loading: false,
+    error: null
   },
-  user: {
-    id: `123`,
-    registeredEvents: ['1']
-  },
+
   mutations: {
+    setLoadedEvents(state, payload) {
+      state.loadedEvents = payload;
+    },
     createEvent(state, payload) {
       state.loadedEvents.push(payload);
+    },
+    setUser(state, payload) {
+      state.user = payload;
+    },
+    setLoading(state, payload) {
+      // payload should be 'true' or 'false'
+      state.loading = payload;
+    },
+    setError(state, payload) {
+      state.error = payload;
+    },
+    clearError(state) {
+      state.error = null;
     }
   },
   actions: {
+    // Load events from firestore
+    loadEvents({ commit }) {
+      commit('setLoading', true);
+      const db = firebase.firestore();
+
+      db.collection('events').onSnapshot(snapshot => {
+        const events = [];
+        snapshot.docChanges().forEach(change => {
+          if (change.type === 'added') {
+            const eventData = change.doc.data();
+            const event = {
+              id: change.doc.id,
+              title: eventData.title,
+              description: eventData.description,
+              imageUrl: eventData.imageUrl,
+              date: eventData.date
+            };
+            events.push(event);
+          }
+        });
+        commit('setLoadedEvents', events);
+        commit('setLoading', false);
+      });
+    },
     createEvent({ commit }, payload) {
+      const db = firebase.firestore();
       const event = {
         title: payload.title,
         location: payload.location,
         imageUrl: payload.imageUrl,
         description: payload.description,
         date: payload.date,
-        time: payload.time,
-        id: 'dkjfkdjk'
+        time: payload.time
       };
-      // Reach out to Firebase and store event
-      commit('createEvent', event);
+      // commit('createEvent', event);
+
+      db.collection('events')
+        .add(event)
+        .then(data => {
+          const id = data.id;
+          console.log(id);
+          commit('createEvent', {
+            ...event,
+            id: id
+          });
+        })
+        .catch(error => console.log(error));
+    },
+    signUserUp({ commit }, payload) {
+      commit('setLoading', true);
+      commit('clearError');
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(payload.email, payload.password)
+        // .then(function success(userCredentials) {
+        .then(userCredentials => {
+          commit('setLoading', false);
+          const userData = userCredentials.user;
+          const newUser = {
+            id: userData.uid,
+            registeredEvents: []
+          };
+          console.log(newUser.id);
+          commit('setUser', newUser);
+        })
+        .catch(error => {
+          commit('setLoading', false);
+          commit('setError', error);
+          console.log(error);
+        });
+    },
+    signUserIn({ commit }, payload) {
+      commit('setLoading', true);
+      commit('clearError');
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(payload.email, payload.password)
+        .then(function success(userCredentials) {
+          commit('setLoading', false);
+          const userData = userCredentials.user;
+          const newUser = {
+            id: userData.uid,
+            registeredEvents: []
+          };
+          // console.log(userData);
+          commit('setUser', newUser);
+        })
+        .catch(error => {
+          commit('setLoading', false);
+          commit('setError', error);
+          console.log(error);
+        });
+    },
+    clearError({ commit }) {
+      commit('clearError');
     }
   },
   getters: {
@@ -68,6 +168,15 @@ export default new Vuex.Store({
           return event.id === eventId;
         });
       };
+    },
+    user(state) {
+      return state.user;
+    },
+    loading(state) {
+      return state.loading;
+    },
+    error(state) {
+      return state.error;
     }
   },
   modules: {}

@@ -52,15 +52,27 @@ export default {
   components: {},
 
   data: () => ({
-    sideNav: false,
-    menuItems: [
-      { icon: 'mdi-account-supervisor', title: 'View Events', link: '/events' },
-      { icon: 'mdi-calendar', title: 'Organize Event', link: '/event/new' },
-      { icon: 'mdi-account', title: 'Profile', link: '/profile' },
+    sideNav: false
+  }),
+  computed: {
+    menuItems(){
+      let menuItems = [
       { icon: 'mdi-face', title: 'Sign up', link: '/signup' },
       { icon: 'mdi-lock-open', title: 'Sign in', link: '/signin' }
     ]
-  })
+    if(this.userIsAuthenticated){
+      menuItems = [
+        { icon: 'mdi-account-supervisor', title: 'View Events', link: '/events' },
+        { icon: 'mdi-calendar', title: 'Organize Event', link: '/event/new' },
+        { icon: 'mdi-account', title: 'Profile', link: '/profile' },
+      ]
+    }
+    return menuItems;
+    },
+    userIsAuthenticated() {
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+    }
+  }
 };
 </script>
 

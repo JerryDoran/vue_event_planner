@@ -7,7 +7,7 @@
           <v-img :src="event.imageUrl"></v-img>
           <v-card-subtitle
             class="subheadline"
-          >{{ event.date | date}} {{ event.location }}</v-card-subtitle>
+          >{{ event.date | date}} - {{ event.time }} {{ event.location }}</v-card-subtitle>
           <v-card-text>{{ event.description }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
