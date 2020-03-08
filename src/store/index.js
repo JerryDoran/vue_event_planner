@@ -7,25 +7,25 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     loadedEvents: [
-      {
-        imageUrl: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg',
-        id: '1',
-        title: 'Vue.js Conference in San Diego',
-        date: new Date(),
-        time: null,
-        location: 'San Diego',
-        description: 'Awesome Vue.js talks!'
-      },
-      {
-        imageUrl:
-          'https://www.fodors.com/wp-content/uploads/2018/10/HERO_UltimateParis_Heroshutterstock_112137761.jpg',
-        id: '2',
-        title: 'Javascript Expo in Paris',
-        date: new Date(),
-        time: null,
-        location: 'Paris',
-        description: 'Best Javascript conference ever!'
-      }
+      // {
+      //   imageUrl: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg',
+      //   id: '1',
+      //   title: 'Vue.js Conference in San Diego',
+      //   date: new Date(),
+      //   time: null,
+      //   location: 'San Diego',
+      //   description: 'Awesome Vue.js talks!'
+      // },
+      // {
+      //   imageUrl:
+      //     'https://www.fodors.com/wp-content/uploads/2018/10/HERO_UltimateParis_Heroshutterstock_112137761.jpg',
+      //   id: '2',
+      //   title: 'Javascript Expo in Paris',
+      //   date: new Date(),
+      //   time: null,
+      //   location: 'Paris',
+      //   description: 'Best Javascript conference ever!'
+      // }
     ],
     user: null,
     loading: false,
@@ -61,19 +61,22 @@ export default new Vuex.Store({
 
       db.collection('events').onSnapshot(snapshot => {
         const events = [];
-        snapshot.docChanges().forEach(change => {
-          if (change.type === 'added') {
-            const eventData = change.doc.data();
-            const event = {
-              id: change.doc.id,
-              title: eventData.title,
-              description: eventData.description,
-              imageUrl: eventData.imageUrl,
-              date: eventData.date
-            };
-            events.push(event);
-          }
+        snapshot.docs.forEach(doc => {
+          const eventData = doc.data();
+          const event = {
+            id: doc.id,
+            title: eventData.title,
+            description: eventData.description,
+            imageUrl: eventData.imageUrl,
+            location: eventData.location,
+            date: eventData.date,
+            time: eventData.time
+          };
+          console.log('Event:', event);
+          events.push(event);
+          console.log('Events:', events);
         });
+
         commit('setLoadedEvents', events);
         commit('setLoading', false);
       });

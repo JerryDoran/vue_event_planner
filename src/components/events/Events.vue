@@ -35,7 +35,8 @@ export default {
   name: 'Events',
   computed: {
     events() {
-      return this.$store.getters.loadedEvents;
+      const events = this.$store.getters.loadedEvents;
+      return events;
     }
   },
   components: {}
