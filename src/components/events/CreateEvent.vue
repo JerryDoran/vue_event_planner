@@ -30,14 +30,22 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" offset-sm="2">
-              <v-text-field
+              <v-btn raised class="primary" @click="onPickFile">upload image</v-btn>
+              <input
+                type="file"
+                style="display: none"
+                ref="fileInput"
+                accept="image/*"
+                @change="onFilePicked"
+              />
+              <!-- <v-text-field
                 name="imageUrl"
                 label="Image URL"
                 id="image-url"
                 v-model="imageUrl"
                 prepend-icon="mdi-image-outline"
                 :rules="[rules.required]"
-              ></v-text-field>
+              ></v-text-field>-->
             </v-col>
 
             <v-col cols="12" sm="6" offset-sm="2">
@@ -136,6 +144,7 @@ export default {
     description: '',
     date: null,
     time: null,
+    image: null,
     menu2: false,
     modal2: false
   }),
@@ -156,16 +165,37 @@ export default {
       if (!this.formIsValid) {
         return;
       }
+      if (!this.image) {
+        return;
+      }
       const eventData = {
         title: this.title,
         location: this.location,
-        imageUrl: this.imageUrl,
+        image: this.image,
         description: this.description,
         date: this.date,
         time: this.time
       };
       this.$store.dispatch('createEvent', eventData);
       this.$router.push('/events');
+    },
+    onPickFile() {
+      this.$refs.fileInput.click();
+    },
+    onFilePicked(event) {
+      const files = event.target.files;
+      let filename = files[0].name;
+      // Check for a valid file extension
+      if (filename.lastIndexOf('.') <= 0) {
+        return alert('Please add a valid file!');
+      }
+      // Convert to base64 string value
+      const fileReader = new FileReader();
+      fileReader.addEventListener('load', () => {
+        this.imageUrl = fileReader.result;
+      });
+      fileReader.readAsDataURL(files[0]);
+      this.image = files[0];
     }
   }
 };

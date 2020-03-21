@@ -72,9 +72,7 @@ export default new Vuex.Store({
             date: eventData.date,
             time: eventData.time
           };
-          console.log('Event:', event);
           events.push(event);
-          console.log('Events:', events);
         });
 
         commit('setLoadedEvents', events);
@@ -86,20 +84,41 @@ export default new Vuex.Store({
       const event = {
         title: payload.title,
         location: payload.location,
-        imageUrl: payload.imageUrl,
         description: payload.description,
         date: payload.date,
-        time: payload.time
+        time: payload.time,
+        creatorId: this.getters.user.id
       };
-      // commit('createEvent', event);
-
+      let imageUrl;
+      let id;
       db.collection('events')
         .add(event)
         .then(data => {
-          const id = data.id;
+          id = data.id;
           console.log(id);
+          return id;
+        })
+        .then(id => {
+          const filename = payload.image.name;
+          const ext = filename.slice(filename.lastIndexOf('.'));
+          return firebase
+            .storage()
+            .ref('events/' + id + ext)
+            .put(payload.image);
+        })
+        .then(fileData => {
+          console.log(fileData);
+          imageUrl = fileData.ref.getDownloadURL().then(url => {
+            return db
+              .collection('events')
+              .doc(id)
+              .update({ imageUrl: url });
+          });
+        })
+        .then(() => {
           commit('createEvent', {
             ...event,
+            imageUrl: imageUrl,
             id: id
           });
         })
