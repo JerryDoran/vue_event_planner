@@ -3,7 +3,13 @@
     <v-row>
       <v-col cols="12">
         <v-card dark>
-          <v-card-title class="headline">{{ event.title }}</v-card-title>
+          <v-card-title class="headline">
+            {{ event.title }}
+            <template v-if="userIsCreator">
+              <v-spacer></v-spacer>
+              <edit-event-details></edit-event-details>
+            </template>
+          </v-card-title>
           <v-img :src="event.imageUrl"></v-img>
           <v-card-subtitle
             class="subheadline"
@@ -27,6 +33,18 @@ export default {
   computed: {
     event() {
       return this.$store.getters.loadedEvent(this.id);
+    },
+    userIsAuthenticated() {
+      return (
+        this.$store.getters.user !== null &&
+        this.$store.getters.user !== undefined
+      );
+    },
+    userIsCreator() {
+      if (!this.userIsAuthenticated) {
+        return false;
+      }
+      return this.$store.getters.user.id === this.event.creatorId;
     }
   }
 };

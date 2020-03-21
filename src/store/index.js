@@ -70,7 +70,8 @@ export default new Vuex.Store({
             imageUrl: eventData.imageUrl,
             location: eventData.location,
             date: eventData.date,
-            time: eventData.time
+            time: eventData.time,
+            creatorId: eventData.creatorId
           };
           events.push(event);
         });
@@ -79,7 +80,7 @@ export default new Vuex.Store({
         commit('setLoading', false);
       });
     },
-    createEvent({ commit }, payload) {
+    createEvent({ commit, getters }, payload) {
       const db = firebase.firestore();
       const event = {
         title: payload.title,
@@ -87,7 +88,7 @@ export default new Vuex.Store({
         description: payload.description,
         date: payload.date,
         time: payload.time,
-        creatorId: this.getters.user.id
+        creatorId: getters.user.id
       };
       let imageUrl;
       let id;
@@ -168,6 +169,14 @@ export default new Vuex.Store({
           commit('setError', error);
           console.log(error);
         });
+    },
+    autoSignIn({ commit }, payload) {
+      let registeredEvents = [];
+      commit('setUser', { id: payload.uid }, registeredEvents);
+    },
+    logout({ commit }) {
+      firebase.auth().signOut();
+      commit('setUser', null);
     },
     clearError({ commit }) {
       commit('clearError');

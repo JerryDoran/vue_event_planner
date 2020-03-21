@@ -20,17 +20,31 @@
             <v-icon left>{{item.icon}}</v-icon>
             {{item.title}}
           </v-btn>
+          <v-btn text class="btn-nav grey--text" v-if="userIsAuthenticated" @click="onLogout">
+            <v-icon left>mdi-application-export</v-icon>Logout
+          </v-btn>
         </v-toolbar-items>
       </v-app-bar>
 
       <!-- Navigation Drawer -->
-      <v-navigation-drawer v-model="sideNav" app class="drawer-color" disable-resize-watcher>
+      <v-navigation-drawer
+        v-model="sideNav"
+        app
+        class="drawer-color nav-item"
+        disable-resize-watcher
+      >
         <v-list>
           <v-list-item v-for="item in menuItems" :key="item.title" router :to="item.link">
             <v-list-item-icon>
               <v-icon class="white--text">{{item.icon}}</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="white--text">{{item.title}}</v-list-item-title>
+          </v-list-item>
+          <v-list-item v-if="userIsAuthenticated" @click="onLogout">
+            <v-list-item-icon>
+              <v-icon class="white--text">mdi-application-export</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="white--text">Logout</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
@@ -55,22 +69,34 @@ export default {
     sideNav: false
   }),
   computed: {
-    menuItems(){
+    menuItems() {
       let menuItems = [
-      { icon: 'mdi-face', title: 'Sign up', link: '/signup' },
-      { icon: 'mdi-lock-open', title: 'Sign in', link: '/signin' }
-    ]
-    if(this.userIsAuthenticated){
-      menuItems = [
-        { icon: 'mdi-account-supervisor', title: 'View Events', link: '/events' },
-        { icon: 'mdi-calendar', title: 'Organize Event', link: '/event/new' },
-        { icon: 'mdi-account', title: 'Profile', link: '/profile' },
-      ]
-    }
-    return menuItems;
+        { icon: 'mdi-face', title: 'Sign up', link: '/signup' },
+        { icon: 'mdi-lock-open', title: 'Sign in', link: '/signin' }
+      ];
+      if (this.userIsAuthenticated) {
+        menuItems = [
+          {
+            icon: 'mdi-account-supervisor',
+            title: 'View Events',
+            link: '/events'
+          },
+          { icon: 'mdi-calendar', title: 'Organize Event', link: '/event/new' },
+          { icon: 'mdi-account', title: 'Profile', link: '/profile' }
+        ];
+      }
+      return menuItems;
     },
     userIsAuthenticated() {
-      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+      return (
+        this.$store.getters.user !== null &&
+        this.$store.getters.user !== undefined
+      );
+    }
+  },
+  methods: {
+    onLogout() {
+      this.$store.dispatch('logout');
     }
   }
 };

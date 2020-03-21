@@ -6,11 +6,13 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import DateFilter from './filters/date';
 import Alert from './components/shared/Alert';
+import EditEventDetailsDialog from './components/events/edit/EditEventDetailsDialog.vue';
 
 Vue.config.productionTip = false;
 
 Vue.filter('date', DateFilter);
 Vue.component('app-alert', Alert);
+Vue.component('edit-event-details', EditEventDetailsDialog);
 
 new Vue({
   router,
@@ -24,6 +26,11 @@ new Vue({
       databaseURL: 'https://event-planner-bc9c2.firebaseio.com',
       projectId: 'event-planner-bc9c2',
       storageBucket: 'event-planner-bc9c2.appspot.com'
+    });
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.$store.dispatch('autoSignIn', user);
+      }
     });
 
     this.$store.dispatch('loadEvents');
