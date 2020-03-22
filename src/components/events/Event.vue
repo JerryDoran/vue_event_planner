@@ -1,13 +1,18 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row wrap v-if="loading">
+      <v-col cols="12" class="text-sm-center">
+        <v-progress-circular indeterminate color="primary" :width="5" :size="50"></v-progress-circular>
+      </v-col>
+    </v-row>
+    <v-row wrap v-else>
       <v-col cols="12">
         <v-card dark>
           <v-card-title class="headline">
             {{ event.title }}
             <template v-if="userIsCreator">
               <v-spacer></v-spacer>
-              <edit-event-details></edit-event-details>
+              <edit-event-details :event="event"></edit-event-details>
             </template>
           </v-card-title>
           <v-img :src="event.imageUrl"></v-img>
@@ -45,6 +50,9 @@ export default {
         return false;
       }
       return this.$store.getters.user.id === this.event.creatorId;
+    },
+    loading() {
+      return this.$store.getters.loading;
     }
   }
 };
