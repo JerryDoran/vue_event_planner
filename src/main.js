@@ -7,12 +7,14 @@ import vuetify from './plugins/vuetify';
 import DateFilter from './filters/date';
 import Alert from './components/shared/Alert';
 import EditEventDetailsDialog from './components/events/edit/EditEventDetailsDialog.vue';
+import EditEventDateDialog from './components/events/edit/EditEventDateDialog.vue';
 
 Vue.config.productionTip = false;
 
 Vue.filter('date', DateFilter);
 Vue.component('app-alert', Alert);
 Vue.component('edit-event-details', EditEventDetailsDialog);
+Vue.component('edit-event-date', EditEventDateDialog);
 
 new Vue({
   router,

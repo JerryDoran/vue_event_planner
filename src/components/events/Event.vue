@@ -19,6 +19,9 @@
           <v-card-subtitle
             class="subheadline"
           >{{ event.date | date}} - {{ event.time }} {{ event.location }}</v-card-subtitle>
+          <div>
+            <edit-event-date :event="event" v-if="userIsCreator"></edit-event-date>
+          </div>
           <v-card-text>{{ event.description }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
