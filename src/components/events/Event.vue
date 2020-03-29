@@ -18,7 +18,7 @@
           <v-img :src="event.imageUrl"></v-img>
           <v-card-subtitle
             class="subheadline"
-          >{{ event.date | date}} - {{ event.time }} {{ event.location }}</v-card-subtitle>
+          >{{ event.date }} - {{ event.time }} {{ event.location }}</v-card-subtitle>
           <div>
             <edit-event-date :event="event" v-if="userIsCreator"></edit-event-date>
           </div>
