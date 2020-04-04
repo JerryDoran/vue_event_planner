@@ -11,7 +11,7 @@
         <v-row>
           <v-col cols="12" sm="6">
             <!-- <v-card-title v-if="userIsRegistered">Unregister from Event?</v-card-title>
-            <v-card-title v-else>Register for Event?</v-card-title> -->
+            <v-card-title v-else>Register for Event?</v-card-title>-->
           </v-col>
         </v-row>
         <v-divider></v-divider>
@@ -41,16 +41,7 @@ export default {
       registerDialog: false
     };
   },
-  computed: {
-    // userIsRegistered() {
-    //   console.log(this.eventId);
-    //   return (
-    //     this.$store.getters.user.registeredEvents.findIndex(eventId => {
-    //       return eventId === this.eventId;
-    //     }) >= 0
-    //   );
-    // }
-  },
+
   methods: {
     agree() {}
   }

@@ -110,7 +110,6 @@ export default new Vuex.Store({
         .add(event)
         .then((data) => {
           id = data.id;
-          console.log(id);
           return id;
         })
         .then((id) => {
@@ -122,7 +121,6 @@ export default new Vuex.Store({
             .put(payload.image);
         })
         .then((fileData) => {
-          console.log(fileData);
           imageUrl = fileData.ref.getDownloadURL().then((url) => {
             return db
               .collection('events')
@@ -136,8 +134,7 @@ export default new Vuex.Store({
             imageUrl: imageUrl,
             id: id,
           });
-        })
-        .catch((error) => console.log(error));
+        });
     },
     updateEventData({ commit }, payload) {
       commit('setLoading', true);
@@ -162,8 +159,7 @@ export default new Vuex.Store({
           commit('setLoading', false);
           commit('updateEvent', payload);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           commit('setLoading', false);
         });
     },
@@ -187,7 +183,6 @@ export default new Vuex.Store({
         .catch((error) => {
           commit('setLoading', false);
           commit('setError', error);
-          console.log(error);
         });
     },
     signUserIn({ commit }, payload) {

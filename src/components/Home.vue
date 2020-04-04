@@ -47,7 +47,6 @@ export default {
   data: () => ({}),
   methods: {
     loadEvent(id) {
-      console.log(id);
       this.$router.push('/events/' + id);
     }
   },
@@ -55,8 +54,8 @@ export default {
     events() {
       return this.$store.getters.featuredEvents;
     },
-    loading(){
-      return this.$store.getters.loading
+    loading() {
+      return this.$store.getters.loading;
     }
   },
   components: {}
