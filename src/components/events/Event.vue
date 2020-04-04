@@ -18,16 +18,15 @@
           <v-img :src="event.imageUrl"></v-img>
           <v-card-subtitle
             class="subheadline"
-          >{{ event.date }} - {{ event.time }} {{ event.location }}</v-card-subtitle>
+          >{{ event.date | date }} - {{ event.time }} {{ event.location }}</v-card-subtitle>
           <div>
             <edit-event-date :event="event" v-if="userIsCreator"></edit-event-date>
+            <edit-event-time :event="event" v-if="userIsCreator"></edit-event-time>
           </div>
           <v-card-text>{{ event.description }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn text to>
-              <v-icon left>mdi-file-edit-outline</v-icon>Register
-            </v-btn>
+            <!-- <app-event-register-dialog :eventId="event.id"></!-->
           </v-card-actions>
         </v-card>
       </v-col>

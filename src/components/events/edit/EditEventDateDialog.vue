@@ -1,7 +1,7 @@
 <template>
   <v-dialog width="350px" persistent v-model="dialog">
     <template v-slot:activator="{ on }">
-      <v-btn small color="primary" v-on="on" class="ml-4">Edit Date</v-btn>
+      <v-btn small color="primary" v-on="on" class="ml-4 btn">Edit Date</v-btn>
     </template>
     <v-date-picker v-model="date" scrollable>
       <v-spacer></v-spacer>
@@ -23,7 +23,14 @@ export default {
       menu2: false
     };
   },
+
   methods: {
+    formatDate(date) {
+      if (!date) return null;
+
+      const [year, month, day] = date.split('-');
+      this.date = `${month}/${day}/${year}`;
+    },
     saveChanges() {
       // const newDate = new Date(this.event.date);
       // const newDay = new Date(this.date).getUTCDate();
@@ -47,4 +54,10 @@ export default {
 </script>
 
 <style scoped>
+.btn {
+  opacity: 0.5;
+  background: grey;
+  font-size: 10px;
+  padding: 1px 5px !important;
+}
 </style>

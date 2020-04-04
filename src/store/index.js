@@ -29,7 +29,7 @@ export default new Vuex.Store({
     ],
     user: null,
     loading: false,
-    error: null
+    error: null,
   },
 
   mutations: {
@@ -40,7 +40,7 @@ export default new Vuex.Store({
       state.loadedEvents.push(payload);
     },
     updateEvent(state, payload) {
-      const event = state.loadedEvents.find(event => {
+      const event = state.loadedEvents.find((event) => {
         return event.id === payload.id;
       });
       if (payload.title) {
@@ -65,7 +65,7 @@ export default new Vuex.Store({
     },
     clearError(state) {
       state.error = null;
-    }
+    },
   },
   actions: {
     // Load events from firestore
@@ -73,9 +73,9 @@ export default new Vuex.Store({
       commit('setLoading', true);
       const db = firebase.firestore();
 
-      db.collection('events').onSnapshot(snapshot => {
+      db.collection('events').onSnapshot((snapshot) => {
         const events = [];
-        snapshot.docs.forEach(doc => {
+        snapshot.docs.forEach((doc) => {
           const eventData = doc.data();
           const event = {
             id: doc.id,
@@ -85,7 +85,7 @@ export default new Vuex.Store({
             location: eventData.location,
             date: eventData.date,
             time: eventData.time,
-            creatorId: eventData.creatorId
+            creatorId: eventData.creatorId,
           };
           events.push(event);
         });
@@ -102,18 +102,18 @@ export default new Vuex.Store({
         description: payload.description,
         date: payload.date,
         time: payload.time,
-        creatorId: getters.user.id
+        creatorId: getters.user.id,
       };
       let imageUrl;
       let id;
       db.collection('events')
         .add(event)
-        .then(data => {
+        .then((data) => {
           id = data.id;
           console.log(id);
           return id;
         })
-        .then(id => {
+        .then((id) => {
           const filename = payload.image.name;
           const ext = filename.slice(filename.lastIndexOf('.'));
           return firebase
@@ -121,9 +121,9 @@ export default new Vuex.Store({
             .ref('events/' + id + ext)
             .put(payload.image);
         })
-        .then(fileData => {
+        .then((fileData) => {
           console.log(fileData);
-          imageUrl = fileData.ref.getDownloadURL().then(url => {
+          imageUrl = fileData.ref.getDownloadURL().then((url) => {
             return db
               .collection('events')
               .doc(id)
@@ -134,10 +134,10 @@ export default new Vuex.Store({
           commit('createEvent', {
             ...event,
             imageUrl: imageUrl,
-            id: id
+            id: id,
           });
         })
-        .catch(error => console.log(error));
+        .catch((error) => console.log(error));
     },
     updateEventData({ commit }, payload) {
       commit('setLoading', true);
@@ -151,6 +151,9 @@ export default new Vuex.Store({
       if (payload.date) {
         updateObj.date = payload.date;
       }
+      if (payload.time) {
+        updateObj.time = payload.time;
+      }
       const db = firebase.firestore();
       db.collection('events')
         .doc(payload.id)
@@ -159,7 +162,7 @@ export default new Vuex.Store({
           commit('setLoading', false);
           commit('updateEvent', payload);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           commit('setLoading', false);
         });
@@ -171,17 +174,17 @@ export default new Vuex.Store({
         .auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
         // .then(function success(userCredentials) {
-        .then(userCredentials => {
+        .then((userCredentials) => {
           commit('setLoading', false);
           const userData = userCredentials.user;
           const newUser = {
             id: userData.uid,
-            registeredEvents: []
+            registeredEvents: [],
           };
           console.log(newUser.id);
           commit('setUser', newUser);
         })
-        .catch(error => {
+        .catch((error) => {
           commit('setLoading', false);
           commit('setError', error);
           console.log(error);
@@ -198,12 +201,12 @@ export default new Vuex.Store({
           const userData = userCredentials.user;
           const newUser = {
             id: userData.uid,
-            registeredEvents: []
+            registeredEvents: [],
           };
           // console.log(userData);
           commit('setUser', newUser);
         })
-        .catch(error => {
+        .catch((error) => {
           commit('setLoading', false);
           commit('setError', error);
           console.log(error);
@@ -219,7 +222,7 @@ export default new Vuex.Store({
     },
     clearError({ commit }) {
       commit('clearError');
-    }
+    },
   },
   getters: {
     loadedEvents(state) {
@@ -232,8 +235,8 @@ export default new Vuex.Store({
       return getters.loadedEvents.slice(0, 5);
     },
     loadedEvent(state) {
-      return eventId => {
-        return state.loadedEvents.find(event => {
+      return (eventId) => {
+        return state.loadedEvents.find((event) => {
           // This will return a true or false value
           return event.id === eventId;
         });
@@ -247,7 +250,7 @@ export default new Vuex.Store({
     },
     error(state) {
       return state.error;
-    }
+    },
   },
-  modules: {}
+  modules: {},
 });
