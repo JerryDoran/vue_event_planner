@@ -32,15 +32,6 @@ export default {
       this.date = `${month}/${day}/${year}`;
     },
     saveChanges() {
-      // const newDate = new Date(this.event.date);
-      // const newDay = new Date(this.date).getUTCDate();
-      // const newMonth = new Date(this.date).getUTCMonth();
-      // const newYear = new Date(this.date).getUTCFullYear();
-
-      // newDate.setUTCDate(newDay);
-      // newDate.setUTCMonth(newMonth);
-      // newDate.setUTCFullYear(newYear);
-
       this.$store.dispatch('updateEventData', {
         id: this.event.id,
         date: this.date

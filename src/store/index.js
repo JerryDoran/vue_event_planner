@@ -181,7 +181,7 @@ export default new Vuex.Store({
             id: userData.uid,
             registeredEvents: [],
           };
-          console.log(newUser.id);
+
           commit('setUser', newUser);
         })
         .catch((error) => {
@@ -209,7 +209,6 @@ export default new Vuex.Store({
         .catch((error) => {
           commit('setLoading', false);
           commit('setError', error);
-          console.log(error);
         });
     },
     autoSignIn({ commit }, payload) {
