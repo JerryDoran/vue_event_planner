@@ -1,24 +1,7 @@
 # vue_event_planner
 
-## Project setup
-```
-npm install
-```
+## Project Description
+Plan and organize events using this Vue.js application with Firebase technologies such as Firestore and Hosting.
+The site showcases authentication for updates and uses Vuetify showcasing Google's material component design.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
